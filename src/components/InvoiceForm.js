@@ -105,12 +105,6 @@ const InvoiceForm = ({ user, onLogout }) => {
     setValidationErrors(errors);
   };
 
-  const validateForm = () => {
-    const errors = validateInvoiceForm(formData);
-    setValidationErrors(errors);
-    return !hasValidationErrors(errors);
-  };
-
   const handlePdfUpload = async (file, fileUrl) => {
     if (file) {
       const newPdfData = {

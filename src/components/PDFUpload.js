@@ -92,7 +92,8 @@ const PDFUpload = memo(({ onFileUpload, initialFile, onRemove }) => {
     } else {
       setError('Please select a valid PDF file.');
     }
-  }, [onFileUpload]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onFileUpload, useFallback]);
 
   const handleDrop = useCallback((e) => {
     e.preventDefault();
@@ -165,6 +166,7 @@ const PDFUpload = memo(({ onFileUpload, initialFile, onRemove }) => {
         onRemove();
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialFile]);
 
   const goToPrevPage = () => {

@@ -222,9 +222,9 @@ const SignUpForm = ({ onSignUp, onSwitchToLogin }) => {
                   />
                   <label htmlFor="agreeToTerms" className="ml-2 block text-sm text-gray-900">
                     I agree to the{' '}
-                    <a href="#" className="text-blue-600 hover:text-blue-500">
+                    <button type="button" className="text-blue-600 hover:text-blue-500">
                       Terms and Conditions
-                    </a>
+                    </button>
                   </label>
                 </div>
                 <ErrorMessage name="agreeToTerms" component="div" className="text-sm text-red-600" />

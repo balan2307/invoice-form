@@ -3,14 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 const PDFDataExtractor = ({ file, onDataExtracted }) => {
   const [isExtracting, setIsExtracting] = useState(false);
-  const [extractedData, setExtractedData] = useState(null);
   const [error, setError] = useState(null);
-
-  useEffect(() => {
-    if (file) {
-      extractDataFromPDF(file);
-    }
-  }, [file]);
 
   const extractDataFromPDF = async (pdfFile) => {
     setIsExtracting(true);
@@ -48,8 +41,6 @@ const PDFDataExtractor = ({ file, onDataExtracted }) => {
         ]
       };
 
-      setExtractedData(mockExtractedData);
-      
       if (onDataExtracted) {
         onDataExtracted(mockExtractedData);
       }
@@ -66,6 +57,13 @@ const PDFDataExtractor = ({ file, onDataExtracted }) => {
       setIsExtracting(false);
     }
   };
+
+  useEffect(() => {
+    if (file) {
+      extractDataFromPDF(file);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [file]);
 
   if (!file) return null;
 

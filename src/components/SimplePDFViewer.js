@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 
 const SimplePDFViewer = ({ file, onError }) => {
   const [isLoading, setIsLoading] = useState(true);
