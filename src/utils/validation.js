@@ -73,9 +73,9 @@ const isValidDate = (dateString) => {
   const [month, day, year] = dateString.split('/');
   const date = new Date(year, month - 1, day);
   
-  return date.getFullYear() == year && 
-         date.getMonth() == month - 1 && 
-         date.getDate() == day;
+  return date.getFullYear() === parseInt(year) && 
+         date.getMonth() === parseInt(month) - 1 && 
+         date.getDate() === parseInt(day);
 };
 
 const isValidAmount = (amountString) => {

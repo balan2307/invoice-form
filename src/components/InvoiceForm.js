@@ -4,7 +4,7 @@ import VendorDetails from './VendorDetails';
 import InvoiceDetails from './InvoiceDetails';
 import ExpenseDetails from './ExpenseDetails';
 import { FormDataManager, dummyData, dummyPDFData } from '../utils/sessionManager';
-import { validateInvoiceForm, hasValidationErrors } from '../utils/validation';
+import { validateInvoiceForm } from '../utils/validation';
 
 const InvoiceForm = ({ user, onLogout }) => {
   const [activeTab, setActiveTab] = useState('vendor');
