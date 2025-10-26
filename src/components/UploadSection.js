@@ -13,6 +13,9 @@ const UploadSection = memo(({ onFormDataUpdate, onPdfUpload, pdfData }) => {
       setUploadedFile(null);
     }
   }, [pdfData]);
+  
+  const pdfFile = pdfData?.file;
+  const pdfFileUrl = pdfData?.fileUrl;
 
   const handleFileUpload = (file, fileUrl) => {
     setUploadedFile({ file, fileUrl });
@@ -41,7 +44,7 @@ const UploadSection = memo(({ onFormDataUpdate, onPdfUpload, pdfData }) => {
 
   return (
     <div className="space-y-4 bg-white rounded-lg p-4">
-      <PDFUpload onFileUpload={handleFileUpload} initialFile={pdfData?.file} onRemove={handleRemove} />
+      <PDFUpload onFileUpload={handleFileUpload} initialFile={pdfFile} onRemove={handleRemove} />
       
       {uploadedFile && (
         <>

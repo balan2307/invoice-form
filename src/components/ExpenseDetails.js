@@ -64,6 +64,9 @@ const ExpenseDetails = memo(({ formData, onFormDataChange, errors, touched }) =>
               </div>
               <span className="ml-2 text-sm text-gray-500">USD</span>
             </div>
+            {errors.lineAmount && touched.lineAmount && (
+              <p className="mt-1 text-sm text-red-600">{errors.lineAmount}</p>
+            )}
           </div>
 
           <div>
@@ -110,6 +113,9 @@ const ExpenseDetails = memo(({ formData, onFormDataChange, errors, touched }) =>
               <option value="Finance">Finance</option>
               <option value="Operations">Operations</option>
             </select>
+            {errors.department && touched.department && (
+              <p className="mt-1 text-sm text-red-600">{errors.department}</p>
+            )}
           </div>
 
           <div>
@@ -129,6 +135,9 @@ const ExpenseDetails = memo(({ formData, onFormDataChange, errors, touched }) =>
               <option value="California">California</option>
               <option value="Texas">Texas</option>
             </select>
+            {errors.location && touched.location && (
+              <p className="mt-1 text-sm text-red-600">{errors.location}</p>
+            )}
           </div>
         </div>
       </div>
@@ -152,7 +161,7 @@ const ExpenseDetails = memo(({ formData, onFormDataChange, errors, touched }) =>
           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
-          + Add Expense Coding
+          Add Expense Coding
         </button>
       </div>
 
@@ -182,10 +191,16 @@ const ExpenseDetails = memo(({ formData, onFormDataChange, errors, touched }) =>
       </div>
 
       <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
-        <button className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+        <button 
+          onClick={() => onFormDataChange && onFormDataChange('__saveDraft', null)}
+          className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+        >
           Save as Draft
         </button>
-        <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+        <button 
+          onClick={() => onFormDataChange && onFormDataChange('__submit', null)}
+          className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
           Submit & New
         </button>
       </div>
