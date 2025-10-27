@@ -86,3 +86,31 @@ const isValidAmount = (amountString) => {
 export const hasValidationErrors = (errors) => {
   return Object.keys(errors).length > 0;
 };
+
+export const formatDateForInput = (dateString) => {
+  if (!dateString) return '';
+  
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+    return dateString;
+  }
+  
+  const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+  if (!dateRegex.test(dateString)) return '';
+  
+  const [month, day, year] = dateString.split('/');
+  return `${year}-${month}-${day}`;
+};
+
+export const formatDateForStorage = (dateString) => {
+  if (!dateString) return '';
+  
+  if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateString)) {
+    return dateString;
+  }
+  
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateRegex.test(dateString)) return dateString;
+  
+  const [year, month, day] = dateString.split('-');
+  return `${month}/${day}/${year}`;
+};

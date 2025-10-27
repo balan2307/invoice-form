@@ -165,31 +165,6 @@ const ExpenseDetails = memo(({ formData, onFormDataChange, errors, touched }) =>
         </button>
       </div>
 
-      <div className="space-y-3">
-        <div className="flex items-center">
-          <svg className="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-          </svg>
-          <h4 className="text-sm font-bold text-gray-900">Comments</h4>
-        </div>
-        
-        <div className="relative">
-          <input
-            type="text"
-            name="comments"
-            value={formData.comments}
-            onChange={(e) => handleFieldChange('comments', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Add a comment and use @Name to tag someone"
-          />
-          <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
       <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
         <button 
           onClick={() => onFormDataChange && onFormDataChange('__saveDraft', null)}

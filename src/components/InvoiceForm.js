@@ -27,8 +27,7 @@ const InvoiceForm = ({ user, onLogout }) => {
       lineAmount: '',
       account: '',
       department: '',
-      location: '',
-      comments: ''
+      location: ''
     };
   };
   
@@ -48,8 +47,7 @@ const InvoiceForm = ({ user, onLogout }) => {
 
   const tabs = [
     { id: 'vendor', label: 'Vendor Details' },
-    { id: 'invoice', label: 'Invoice Details' },
-    { id: 'comments', label: 'Comments' }
+    { id: 'invoice', label: 'Invoice Details' }
   ];
 
   const isInitialMount = useRef(true);
@@ -107,8 +105,7 @@ const InvoiceForm = ({ user, onLogout }) => {
         lineAmount: updateIfEmpty(extractedData.lineItems?.[0]?.amount, prev.lineAmount),
         account: updateIfEmpty(extractedData.lineItems?.[0]?.account, prev.account),
         department: updateIfEmpty(extractedData.lineItems?.[0]?.department, prev.department),
-        location: updateIfEmpty(extractedData.lineItems?.[0]?.location, prev.location),
-        comments: updateIfEmpty(extractedData.invoice?.comments, prev.comments)
+        location: updateIfEmpty(extractedData.lineItems?.[0]?.location, prev.location)
       };
       const errors = validateInvoiceForm(updatedData);
       setValidationErrors(errors);
@@ -136,8 +133,7 @@ const InvoiceForm = ({ user, onLogout }) => {
         lineAmount: true,
         account: true,
         department: true,
-        location: true,
-        comments: true
+        location: true
       });
       
       const currentFormData = formDataRef.current;
@@ -175,8 +171,7 @@ const InvoiceForm = ({ user, onLogout }) => {
           lineAmount: '',
           account: '',
           department: '',
-          location: '',
-          comments: ''
+          location: ''
         });
         setPdfData(null);
         setValidationErrors({});
@@ -265,8 +260,7 @@ const InvoiceForm = ({ user, onLogout }) => {
       lineAmount: '',
       account: '',
       department: '',
-      location: '',
-      comments: ''
+      location: ''
     });
     setPdfData(null);
     setValidationErrors({});
@@ -352,9 +346,6 @@ const InvoiceForm = ({ user, onLogout }) => {
             )}
             {activeTab === 'invoice' && (
               <InvoiceDetails formData={formData} onFormDataChange={handleFieldChange} errors={validationErrors} touched={touchedFields} />
-            )}
-            {activeTab === 'comments' && (
-              <ExpenseDetails formData={formData} onFormDataChange={handleFieldChange} errors={validationErrors} touched={touchedFields} />
             )}
           </div>
         </div>

@@ -414,8 +414,7 @@ export const dummyData = {
   lineAmount: '1,250.00',
   account: 'Office Maintenance',
   department: 'Facilities',
-  location: 'Main Office',
-  comments: 'Regular monthly service - all areas covered'
+  location: 'Main Office'
 };
 
 export const dummyPDFData = {
@@ -436,8 +435,7 @@ export const dummyPDFData = {
       description: "Monthly pest control services for office building",
       paymentTerms: "Net 30",
       purchaseOrderNumber: "PO-001",
-      glPostDate: "01/15/2024",
-      comments: "Regular monthly service - all areas covered"
+      glPostDate: "01/15/2024"
     },
     lineItems: [
       {

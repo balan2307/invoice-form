@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { formatDateForInput, formatDateForStorage } from '../utils/validation';
 
 const InvoiceDetails = memo(({ formData, onFormDataChange, errors, touched }) => {
   const handleFieldChange = (fieldName, value) => {
@@ -71,20 +72,16 @@ const InvoiceDetails = memo(({ formData, onFormDataChange, errors, touched }) =>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Invoice Date <span className="text-red-500">*</span>
               </label>
-              <div className="relative">
-                <input 
-                  type="text" 
-                  value={formData.invoiceDate || ''}
-                  onChange={(e) => handleFieldChange('invoiceDate', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="MM/DD/YYYY"
-                />
-                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-              </div>
+              <input 
+                type="date" 
+                value={formatDateForInput(formData.invoiceDate)}
+                onChange={(e) => handleFieldChange('invoiceDate', formatDateForStorage(e.target.value))}
+                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                  errors.invoiceDate && touched.invoiceDate 
+                    ? 'border-red-500 focus:ring-red-500' 
+                    : 'border-gray-300 focus:ring-blue-500 focus:border-transparent'
+                }`}
+              />
               {errors.invoiceDate && touched.invoiceDate && (
                 <p className="mt-1 text-sm text-red-600">{errors.invoiceDate}</p>
               )}
@@ -114,20 +111,16 @@ const InvoiceDetails = memo(({ formData, onFormDataChange, errors, touched }) =>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 GL Post Date <span className="text-red-500">*</span>
               </label>
-              <div className="relative">
-                <input 
-                  type="text" 
-                  value={formData.glPostDate || ''}
-                  onChange={(e) => handleFieldChange('glPostDate', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="MM/DD/YYYY"
-                />
-                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-              </div>
+              <input 
+                type="date" 
+                value={formatDateForInput(formData.glPostDate)}
+                onChange={(e) => handleFieldChange('glPostDate', formatDateForStorage(e.target.value))}
+                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                  errors.glPostDate && touched.glPostDate 
+                    ? 'border-red-500 focus:ring-red-500' 
+                    : 'border-gray-300 focus:ring-blue-500 focus:border-transparent'
+                }`}
+              />
               {errors.glPostDate && touched.glPostDate && (
                 <p className="mt-1 text-sm text-red-600">{errors.glPostDate}</p>
               )}
@@ -166,20 +159,16 @@ const InvoiceDetails = memo(({ formData, onFormDataChange, errors, touched }) =>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Invoice Due Date <span className="text-red-500">*</span>
               </label>
-              <div className="relative">
-                <input 
-                  type="text" 
-                  value={formData.dueDate || ''}
-                  onChange={(e) => handleFieldChange('dueDate', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="MM/DD/YYYY"
-                />
-                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-              </div>
+              <input 
+                type="date" 
+                value={formatDateForInput(formData.dueDate)}
+                onChange={(e) => handleFieldChange('dueDate', formatDateForStorage(e.target.value))}
+                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                  errors.dueDate && touched.dueDate 
+                    ? 'border-red-500 focus:ring-red-500' 
+                    : 'border-gray-300 focus:ring-blue-500 focus:border-transparent'
+                }`}
+              />
               {errors.dueDate && touched.dueDate && (
                 <p className="mt-1 text-sm text-red-600">{errors.dueDate}</p>
               )}
