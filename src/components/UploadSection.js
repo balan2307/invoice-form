@@ -15,7 +15,6 @@ const UploadSection = memo(({ onFormDataUpdate, onPdfUpload, pdfData }) => {
   }, [pdfData]);
   
   const pdfFile = pdfData?.file;
-  const pdfFileUrl = pdfData?.fileUrl;
 
   const handleFileUpload = (file, fileUrl) => {
     setUploadedFile({ file, fileUrl });

@@ -116,8 +116,6 @@ const InvoiceForm = ({ user, onLogout }) => {
     });
   }, []);
 
-  const [submitAttempted, setSubmitAttempted] = useState(false);
-
   const handleFieldChange = useCallback((fieldName, value) => {
     if (fieldName === '__saveDraft') {
       FormDataManager.saveFormData(formDataRef.current);
@@ -125,7 +123,6 @@ const InvoiceForm = ({ user, onLogout }) => {
     }
     
     if (fieldName === '__submit') {
-      setSubmitAttempted(true);
       setTouchedFields({
         vendor: true,
         purchaseOrderNumber: true,
@@ -184,7 +181,6 @@ const InvoiceForm = ({ user, onLogout }) => {
         setPdfData(null);
         setValidationErrors({});
         setTouchedFields({});
-        setSubmitAttempted(false);
         FormDataManager.clearPDFData();
         FormDataManager.clearFormData();
         
@@ -212,7 +208,7 @@ const InvoiceForm = ({ user, onLogout }) => {
       setValidationErrors(errors);
       return updatedData;
     });
-  }, [formData, pdfData]);
+  }, []);
 
   const handlePdfUpload = useCallback(async (file, fileUrl) => {
     if (file) {
