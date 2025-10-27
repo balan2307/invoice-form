@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 const PDFDataExtractor = ({ file, onDataExtracted }) => {
   const [isExtracting, setIsExtracting] = useState(false);
   const [error, setError] = useState(null);
+  const [isComplete, setIsComplete] = useState(false);
 
   const extractDataFromPDF = async (pdfFile) => {
     setIsExtracting(true);
@@ -11,45 +12,7 @@ const PDFDataExtractor = ({ file, onDataExtracted }) => {
 
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
-
-      const mockExtractedData = {
-        vendor: {
-          name: "A-1 Exterminators",
-          address: "550 Main St, Lynn",
-          phone: "(555) 123-4567",
-          email: "info@a1exterminators.com"
-        },
-        invoice: {
-          number: "INV-2024-001",
-          date: "01/15/2024",
-          dueDate: "02/15/2024",
-          totalAmount: "1,250.00",
-          description: "Monthly pest control services for office building",
-          paymentTerms: "Net 30",
-          purchaseOrderNumber: "PO-001",
-          glPostDate: "01/15/2024",
-          comments: "Regular monthly service - all areas covered"
-        },
-        lineItems: [
-          {
-            description: "Monthly pest control service",
-            amount: "1,250.00",
-            account: "Office Maintenance",
-            department: "Facilities",
-            location: "Main Office"
-          }
-        ]
-      };
-
-      if (onDataExtracted) {
-        onDataExtracted(mockExtractedData);
-      }
-      
-      setTimeout(() => {
-        if (onDataExtracted) {
-          onDataExtracted(mockExtractedData);
-        }
-      }, 100);
+      setIsComplete(true);
     } catch (err) {
       setError('Failed to extract data from PDF. Please try again.');
       console.error('PDF extraction error:', err);
@@ -60,6 +23,7 @@ const PDFDataExtractor = ({ file, onDataExtracted }) => {
 
   useEffect(() => {
     if (file) {
+      setIsComplete(false);
       extractDataFromPDF(file);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -73,7 +37,16 @@ const PDFDataExtractor = ({ file, onDataExtracted }) => {
         <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
           <div className="flex items-center">
             <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500 mr-3"></div>
-            <p className="text-sm text-blue-700">Extracting data from PDF...</p>
+            <p className="text-sm text-blue-700">Processing PDF...</p>
+          </div>
+        </div>
+      ) : isComplete ? (
+        <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+          <div className="flex items-center">
+            <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            <p className="text-sm text-green-700">PDF uploaded successfully</p>
           </div>
         </div>
       ) : error ? (

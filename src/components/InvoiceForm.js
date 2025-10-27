@@ -8,22 +8,31 @@ import { validateInvoiceForm } from '../utils/validation';
 
 const InvoiceForm = ({ user, onLogout }) => {
   const [activeTab, setActiveTab] = useState('vendor');
-  const [formData, setFormData] = useState({
-    vendor: '',
-    purchaseOrderNumber: '',
-    invoiceNumber: '',
-    invoiceDate: '',
-    dueDate: '',
-    totalAmount: '',
-    description: '',
-    paymentTerms: '',
-    glPostDate: '',
-    lineAmount: '',
-    account: '',
-    department: '',
-    location: '',
-    comments: ''
-  });
+  
+  const initialFormData = () => {
+    const savedData = FormDataManager.getFormData();
+    if (savedData) {
+      return savedData;
+    }
+    return {
+      vendor: '',
+      purchaseOrderNumber: '',
+      invoiceNumber: '',
+      invoiceDate: '',
+      dueDate: '',
+      totalAmount: '',
+      description: '',
+      paymentTerms: '',
+      glPostDate: '',
+      lineAmount: '',
+      account: '',
+      department: '',
+      location: '',
+      comments: ''
+    };
+  };
+  
+  const [formData, setFormData] = useState(initialFormData);
   const [pdfData, setPdfData] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
   const [touchedFields, setTouchedFields] = useState({});
@@ -46,13 +55,8 @@ const InvoiceForm = ({ user, onLogout }) => {
   const isInitialMount = useRef(true);
 
   useEffect(() => {
-    const savedFormData = FormDataManager.getFormData();
     const savedPdfData = FormDataManager.getPDFData();
     const savedPdfFile = FormDataManager.getPDFFile();
-    
-    if (savedFormData) {
-      setFormData(savedFormData);
-    }
     
     if (savedPdfData) {
       setPdfData(savedPdfData);
@@ -83,22 +87,28 @@ const InvoiceForm = ({ user, onLogout }) => {
 
   const handleFormDataUpdate = useCallback((extractedData) => {
     setFormData(prev => {
+      const updateIfEmpty = (extractedValue, previousValue) => {
+        const hasPreviousValue = previousValue && previousValue.trim() !== '';
+        const hasExtractedValue = extractedValue && extractedValue.trim() !== '';
+        return (hasPreviousValue ? previousValue : (hasExtractedValue ? extractedValue : previousValue));
+      };
+      
       const updatedData = {
         ...prev,
-        vendor: extractedData.vendor?.name || prev.vendor,
-        purchaseOrderNumber: extractedData.invoice?.purchaseOrderNumber || prev.purchaseOrderNumber,
-        invoiceNumber: extractedData.invoice?.number || prev.invoiceNumber,
-        invoiceDate: extractedData.invoice?.date || prev.invoiceDate,
-        dueDate: extractedData.invoice?.dueDate || prev.dueDate,
-        totalAmount: extractedData.invoice?.totalAmount || prev.totalAmount,
-        description: extractedData.invoice?.description || prev.description,
-        paymentTerms: extractedData.invoice?.paymentTerms || prev.paymentTerms,
-        glPostDate: extractedData.invoice?.glPostDate || prev.glPostDate,
-        lineAmount: extractedData.lineItems?.[0]?.amount || prev.lineAmount,
-        account: extractedData.lineItems?.[0]?.account || prev.account,
-        department: extractedData.lineItems?.[0]?.department || prev.department,
-        location: extractedData.lineItems?.[0]?.location || prev.location,
-        comments: extractedData.invoice?.comments || prev.comments
+        vendor: updateIfEmpty(extractedData.vendor?.name, prev.vendor),
+        purchaseOrderNumber: updateIfEmpty(extractedData.invoice?.purchaseOrderNumber, prev.purchaseOrderNumber),
+        invoiceNumber: updateIfEmpty(extractedData.invoice?.number, prev.invoiceNumber),
+        invoiceDate: updateIfEmpty(extractedData.invoice?.date, prev.invoiceDate),
+        dueDate: updateIfEmpty(extractedData.invoice?.dueDate, prev.dueDate),
+        totalAmount: updateIfEmpty(extractedData.invoice?.totalAmount, prev.totalAmount),
+        description: updateIfEmpty(extractedData.invoice?.description, prev.description),
+        paymentTerms: updateIfEmpty(extractedData.invoice?.paymentTerms, prev.paymentTerms),
+        glPostDate: updateIfEmpty(extractedData.invoice?.glPostDate, prev.glPostDate),
+        lineAmount: updateIfEmpty(extractedData.lineItems?.[0]?.amount, prev.lineAmount),
+        account: updateIfEmpty(extractedData.lineItems?.[0]?.account, prev.account),
+        department: updateIfEmpty(extractedData.lineItems?.[0]?.department, prev.department),
+        location: updateIfEmpty(extractedData.lineItems?.[0]?.location, prev.location),
+        comments: updateIfEmpty(extractedData.invoice?.comments, prev.comments)
       };
       const errors = validateInvoiceForm(updatedData);
       setValidationErrors(errors);
@@ -176,6 +186,7 @@ const InvoiceForm = ({ user, onLogout }) => {
         setTouchedFields({});
         setSubmitAttempted(false);
         FormDataManager.clearPDFData();
+        FormDataManager.clearFormData();
         
         setToastMessage('Form submitted successfully!');
         setToastType('success');
@@ -273,11 +284,6 @@ const InvoiceForm = ({ user, onLogout }) => {
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <button className="mr-4 p-2 hover:bg-gray-100 rounded-lg">
-              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
             <h1 className="text-xl font-semibold text-gray-900">Create New Invoice</h1>
           </div>
           
@@ -341,9 +347,19 @@ const InvoiceForm = ({ user, onLogout }) => {
 
         <div className="w-2/3 p-6 border-l border-dashed border-gray-300 bg-pink-50">
           <div className="space-y-8">
-            <VendorDetails formData={formData} onFormDataChange={handleFieldChange} errors={validationErrors} touched={touchedFields} />
-            <InvoiceDetails formData={formData} onFormDataChange={handleFieldChange} errors={validationErrors} touched={touchedFields} />
-            <ExpenseDetails formData={formData} onFormDataChange={handleFieldChange} errors={validationErrors} touched={touchedFields} />
+            {activeTab === 'vendor' && (
+              <>
+                <VendorDetails formData={formData} onFormDataChange={handleFieldChange} errors={validationErrors} touched={touchedFields} />
+                <InvoiceDetails formData={formData} onFormDataChange={handleFieldChange} errors={validationErrors} touched={touchedFields} />
+                <ExpenseDetails formData={formData} onFormDataChange={handleFieldChange} errors={validationErrors} touched={touchedFields} />
+              </>
+            )}
+            {activeTab === 'invoice' && (
+              <InvoiceDetails formData={formData} onFormDataChange={handleFieldChange} errors={validationErrors} touched={touchedFields} />
+            )}
+            {activeTab === 'comments' && (
+              <ExpenseDetails formData={formData} onFormDataChange={handleFieldChange} errors={validationErrors} touched={touchedFields} />
+            )}
           </div>
         </div>
       </div>
